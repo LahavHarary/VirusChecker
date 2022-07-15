@@ -7,6 +7,6 @@ namespace VirusChecker.Models
 {
     public interface IConnector
     {
-        Task<VirusReport> Sumbit(IFile file);
+        Task<VirusReport> Submit(IFile file);
     }
 }

@@ -5,4 +5,9 @@
     <TargetFramework>netcoreapp2.1</TargetFramework>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\VirusChecker.Models\VirusChecker.Models.csproj" />
+    <ProjectReference Include="..\VirusChecker\VirusChecker.csproj" />
+  </ItemGroup>
+
 </Project>

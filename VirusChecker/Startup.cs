@@ -10,6 +10,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using VirusChecker.Models;
 
 namespace VirusChecker
 {
@@ -26,6 +27,17 @@ namespace VirusChecker
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+
+
+            var virusCheckerConfig = new VirusCheckerConfig();
+            Configuration.GetSection("virusCheckerConfig").Bind(virusCheckerConfig);
+
+            services.AddSingleton<IConnector>(new VirusTotalConnector(Configuration["apiKey"], 
+                double.Parse(Configuration["threshPrecentageViruses"])));
+            services.AddSingleton(virusCheckerConfig);
+
+            services.AddSwaggerDocument();
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -39,6 +51,9 @@ namespace VirusChecker
             {
                 app.UseHsts();
             }
+
+            app.UseOpenApi();
+            app.UseSwaggerUi3();
 
             app.UseHttpsRedirection();
             app.UseMvc();
